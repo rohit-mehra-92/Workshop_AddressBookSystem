@@ -1,32 +1,52 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class AddressBook {
     HashMap<String, Object> contactDetailsList = new HashMap<>();
 
-    public void addContactDetails() {
+    public List readContactDetail(boolean isEdit) {
+        List<String> list = new ArrayList<>();
         System.out.println("Enter Contact Details");
         System.out.println("----------------------");
         Scanner in = new Scanner(System.in);
-        System.out.print("Enter First Name: ");
-        String fName = in.next();
+        if (isEdit == false) {
+            System.out.print("Enter First Name: ");
+            list.add(in.next());
+        }
         System.out.print("Enter Last Name: ");
-        String lName = in.next();
+        list.add(in.next());
         System.out.print("Enter Address: ");
-        String address = in.next();
+        list.add(in.next());
         System.out.print("Enter City: ");
-        String city = in.next();
+        list.add(in.next());
         System.out.print("Enter State: ");
-        String state = in.next();
+        list.add(in.next());
         System.out.print("Enter Zip: ");
-        int zip = in.nextInt();
+        list.add(in.next());
         System.out.print("Enter Phone number: ");
-        String phone = in.next();
+        list.add(in.next());
         System.out.print("Enter Email Id: ");
-        String email = in.next();
+        list.add(in.next());
+        return list;
+    }
 
-        PersonContact newPersonContact = new PersonContact(fName, lName, address, city, state, zip, phone, email);
-        contactDetailsList.put(fName, newPersonContact);
+    public void addContactDetail() {
+        List listContactDetails = readContactDetail(false);
+        PersonContact objPersonContact = new PersonContact();
+        objPersonContact.addPersonContact(listContactDetails);
+        contactDetailsList.put((String) listContactDetails.get(0), objPersonContact);
+    }
+
+    public void editContactDetail(String firstName) {
+        if (contactDetailsList.containsKey(firstName)) {
+            PersonContact newPersonContact = (PersonContact) contactDetailsList.get(firstName);
+            List editedPersonDetail = readContactDetail(true);
+            newPersonContact.editPersonContactDetails(editedPersonDetail);
+        } else {
+            System.out.println("First name doesn't exist");
+        }
     }
 
     public void displayContactDetails() {
@@ -34,6 +54,7 @@ public class AddressBook {
             PersonContact newPersonContact = (PersonContact) contactDetailsList.get(key);
             System.out.println("--------------------------");
             newPersonContact.displayPersonContactDetails();
+            System.out.println("--------------------------");
         }
     }
 }
