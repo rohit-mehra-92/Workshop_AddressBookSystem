@@ -133,7 +133,7 @@ public class AddressBook {
 
     public void deleteContactDetail(String firstName) {
         boolean flag = false;
-        if (listContactDetails.isEmpty()) {
+        if (listContactDetails.isEmpty()){
             System.out.println("------NO RECORDS------");
             return;
         }
