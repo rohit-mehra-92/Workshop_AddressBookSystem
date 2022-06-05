@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class AddressBook {
-    List<PersonDetails> listContactDetails = new ArrayList<>();
+    ArrayList<PersonDetails> listContactDetails = new ArrayList<>();
 
 
     public PersonDetails readContactDetail() {
@@ -28,6 +28,7 @@ public class AddressBook {
         return objPersonContact;
     }
 
+    //check the person already exit or not
     public void addContactDetail() {
         boolean flag = false;
         PersonDetails personDetails = readContactDetail();
@@ -38,13 +39,15 @@ public class AddressBook {
         }
         if (!flag) {
             listContactDetails.add(personDetails);
-            storePersonByCity(personDetails.getCity(), personDetails);
-            storePersonByState(personDetails.getState(), personDetails);
+            storePersonByCity((String) personDetails.getCity(), personDetails);//call store person details by city name
+            storePersonByState((String) personDetails.getState(), personDetails);//call store person details by state name
         } else {
             System.out.println("First Name already exist..");
         }
     }
 
+    //store persons detail in dict by city name
+    @SuppressWarnings("unchecked")
     public void storePersonByCity(String cityName, PersonDetails personObject) {
         while (Main.dictCity.keys().hasMoreElements()) {
             if (Main.dictCity.keys().nextElement().equals(cityName)) {
@@ -59,6 +62,8 @@ public class AddressBook {
         Main.dictCity.put(cityName, personDetailsArray);
     }
 
+    //store persons detail in dict by state name
+    @SuppressWarnings("unchecked")
     public void storePersonByState(String stateName, PersonDetails personObject) {
         while (Main.dictState.keys().hasMoreElements()) {
             if (Main.dictState.keys().nextElement().equals(stateName)) {
@@ -98,6 +103,7 @@ public class AddressBook {
                 System.out.print("Enter choice: ");
                 Scanner in = new Scanner(System.in);
                 choice = in.nextInt();
+                //use switch for edit specific details
                 switch (choice) {
                     case 1:
                         System.out.println("Old: " + newPersonContact.getFirstName());
@@ -182,12 +188,13 @@ public class AddressBook {
         }
     }
 
+    //display contact details
     public void displayContactDetails() {
         if (listContactDetails.isEmpty()) {//check list are empty or not
             System.out.println("------NO RECORDS------");
             return;
         }
-
+        Collections.sort(listContactDetails, new SortByName());
         for (PersonDetails objPerson : listContactDetails) {
             System.out.println("--------------------------");
             objPerson.displayPersonContactDetails();
