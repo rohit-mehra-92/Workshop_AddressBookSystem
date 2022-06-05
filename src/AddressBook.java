@@ -67,7 +67,6 @@ public class AddressBook {
                 System.out.print("Enter choice: ");
                 Scanner in = new Scanner(System.in);
                 choice = in.nextInt();
-                //use switch for edit specific details
                 switch (choice) {
                     case 1:
                         System.out.println("Old: " + newPersonContact.getFirstName());
@@ -126,6 +125,7 @@ public class AddressBook {
                 }
             } while (choice != 0);
 
+
         } else {
             System.out.println("First name doesn't exist");
         }
@@ -152,7 +152,7 @@ public class AddressBook {
     }
 
     public void displayContactDetails() {
-        if (listContactDetails.isEmpty()) {//check list are empty or not
+        if (listContactDetails.isEmpty()) {
             System.out.println("------NO RECORDS------");
             return;
         }
