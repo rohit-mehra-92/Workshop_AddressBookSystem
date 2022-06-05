@@ -2,13 +2,14 @@ import java.util.*;
 
 public class AddressBook {
     ArrayList<PersonDetails> listContactDetails = new ArrayList<>();
+    Scanner in = new Scanner(System.in);
+    PersonDetails objPersonContact=null;
 
 
     public PersonDetails readContactDetail() {
-        PersonDetails objPersonContact = new PersonDetails();
+        objPersonContact = new PersonDetails();
         System.out.println("Enter Contact Details");
         System.out.println("----------------------");
-        Scanner in = new Scanner(System.in);
         System.out.print("Enter First Name: ");
         objPersonContact.setFirstName(in.next());
         System.out.print("Enter Last Name: ");
@@ -28,7 +29,6 @@ public class AddressBook {
         return objPersonContact;
     }
 
-    //check the person already exit or not
     public void addContactDetail() {
         boolean flag = false;
         PersonDetails personDetails = readContactDetail();
@@ -46,34 +46,24 @@ public class AddressBook {
         }
     }
 
-    //store persons detail in dict by city name
-    @SuppressWarnings("unchecked")
     public void storePersonByCity(String cityName, PersonDetails personObject) {
-        while (Main.dictCity.keys().hasMoreElements()) {
-            if (Main.dictCity.keys().nextElement().equals(cityName)) {
-                ArrayList<PersonDetails> personDetailsArray = (ArrayList<PersonDetails>) Main.dictCity.get(cityName);
-                personDetailsArray.add(personObject);
-                Main.dictCity.put(cityName, personDetailsArray);
-                return;
-            } else break;
+        ArrayList<PersonDetails> personDetailsArray;
+        if (Main.dictCity.containsKey(cityName)) {
+            personDetailsArray = (ArrayList<PersonDetails>) Main.dictCity.get(cityName);
+        } else {
+            personDetailsArray = new ArrayList<>();
         }
-        ArrayList<PersonDetails> personDetailsArray = new ArrayList<>();
         personDetailsArray.add(personObject);
         Main.dictCity.put(cityName, personDetailsArray);
     }
 
-    //store persons detail in dict by state name
-    @SuppressWarnings("unchecked")
     public void storePersonByState(String stateName, PersonDetails personObject) {
-        while (Main.dictState.keys().hasMoreElements()) {
-            if (Main.dictState.keys().nextElement().equals(stateName)) {
-                ArrayList<PersonDetails> personDetailsArray = (ArrayList<PersonDetails>) Main.dictState.get(stateName);
-                personDetailsArray.add(personObject);
-                Main.dictState.put(stateName, personDetailsArray);
-                return;
-            } else break;
+        ArrayList<PersonDetails> personDetailsArray;
+        if (Main.dictState.containsKey(stateName)) {
+            personDetailsArray = (ArrayList<PersonDetails>) Main.dictState.get(stateName);
+        } else {
+            personDetailsArray = new ArrayList<>();
         }
-        ArrayList<PersonDetails> personDetailsArray = new ArrayList<>();
         personDetailsArray.add(personObject);
         Main.dictState.put(stateName, personDetailsArray);
     }
@@ -103,7 +93,6 @@ public class AddressBook {
                 System.out.print("Enter choice: ");
                 Scanner in = new Scanner(System.in);
                 choice = in.nextInt();
-                //use switch for edit specific details
                 switch (choice) {
                     case 1:
                         System.out.println("Old: " + newPersonContact.getFirstName());
@@ -188,17 +177,27 @@ public class AddressBook {
         }
     }
 
-    //display contact details
     public void displayContactDetails() {
         if (listContactDetails.isEmpty()) {//check list are empty or not
             System.out.println("------NO RECORDS------");
             return;
         }
-        Collections.sort(listContactDetails, new SortByName());
-        for (PersonDetails objPerson : listContactDetails) {
-            System.out.println("--------------------------");
-            objPerson.displayPersonContactDetails();
-            System.out.println("--------------------------");
+        System.out.println("do want to sort contacts on specific details");
+        System.out.println("1. Name \t 2. City \t 3. State \t 4. Zip");
+        int ch = in.nextInt();
+        switch (ch) {
+            case 2:
+                listContactDetails.stream().sorted(Comparator.comparing(PersonDetails::getCity)).forEach(System.out::println);
+                break;
+            case 3:
+                listContactDetails.stream().sorted(Comparator.comparing(PersonDetails::getState)).forEach(System.out::println);
+                break;
+            case 4:
+                listContactDetails.stream().sorted(Comparator.comparing(PersonDetails::getZip)).forEach(System.out::println);
+                break;
+            default:
+                listContactDetails.stream().sorted(Comparator.comparing(PersonDetails::getFirstName)).forEach(System.out::println);
+                break;
         }
     }
 }

@@ -75,11 +75,6 @@ public class PersonDetails<T extends Comparable<T>> {
         this.email = email;
     }
 
-
-    public void displayPersonContactDetails() {
-        System.out.println("First Name: " + firstName + "\nLast Name: " + lastName + "\nAddress: " + address + "\nCity: " + city + "\nState: " + state + "\nZip: " + zip + "\nPhone Number: " + phone + "\nEmail Id: " + email);
-    }
-
     @Override
     public String toString() {
         return "PersonDetails{" +
@@ -92,13 +87,5 @@ public class PersonDetails<T extends Comparable<T>> {
                 ", zip='" + zip + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
-    }
-}
-
-class SortByName implements Comparator<PersonDetails> {
-
-    @Override
-    public int compare(PersonDetails o1, PersonDetails o2) {
-        return o1.getFirstName().compareTo(o2.getFirstName());
     }
 }
