@@ -1,10 +1,4 @@
-import com.sun.applet2.AppletParameters;
-
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
     static Scanner input = new Scanner(System.in);
@@ -23,11 +17,6 @@ public class Main {
         return input.nextInt();
     }
 
-    public static char inputChar(String message) {
-        System.out.println(message);
-        return input.next().toUpperCase().charAt(0);
-    }
-
     public static void displayBooks() {
         for (String books : dictAddressBook.keySet()) {
             System.out.println(books);
@@ -36,8 +25,7 @@ public class Main {
 
     public static void displayNames(AddressBook addressBook) {
         System.out.print("First Names: ");
-        for (PersonDetails objPerson : addressBook.listContactDetails
-        ) {
+        for (PersonDetails objPerson : addressBook.listContactDetails) {
             System.out.print(objPerson.getFirstName() + ", ");
         }
         System.out.println();
@@ -82,7 +70,7 @@ public class Main {
             String bookName = "";
             AddressBook addressBook = new AddressBook();
             ch = inputInteger("1. Create New book\n2. Edit Existing book\n" +
-                    "3. Edit Global Contact\n4. search by city \n5. search by state\n6.view by city\n7.view by State\n(0 to Close)");
+                    "3. Edit Global Contact\n4. search by city \n5. search by state\n6.view by city\n7.view by State\n8.count by city\n9.count by State\n0. Close)");
             switch (ch) {
                 case 1:
                     bookName = inputString("Enter New Address Book Name: ");
@@ -124,6 +112,16 @@ public class Main {
                     String state = input.next();
                     viewPersonState(state);
                     break;
+                case 8:
+                    System.out.println("Enter city name");
+                    String cityToCount = input.next();
+                    countPersonByCity(cityToCount);
+                    break;
+                case 9:
+                    System.out.println("Enter state name");
+                    String stateToCount = input.next();
+                    countPersonByState(stateToCount);
+                    break;
 
             }
         } while (ch != 0);
@@ -132,8 +130,7 @@ public class Main {
     public static void editGlobalContact(String personName) {
         boolean flag = false;
         for (AddressBook addressBook : dictAddressBook.values()) {
-            for (PersonDetails listContactDetail : addressBook.listContactDetails
-            ) {
+            for (PersonDetails listContactDetail : addressBook.listContactDetails) {
                 if (listContactDetail.getFirstName().equals(personName)) {
                     flag = true;
                     break;
@@ -167,5 +164,17 @@ public class Main {
     public static void viewPersonState(String state) {
         ArrayList<PersonDetails> personDetails = (ArrayList<PersonDetails>) dictState.get(state);
         personDetails.stream().forEach(System.out::println);
+    }
+
+    public static void countPersonByCity(String city) {
+        ArrayList<PersonDetails> personDetails = (ArrayList<PersonDetails>) dictCity.get(city);
+        int count = (int) personDetails.stream().count();
+        System.out.println("city: " + city + " are " + count);
+    }
+
+    public static void countPersonByState(String state) {
+        ArrayList<PersonDetails> personDetails = (ArrayList<PersonDetails>) dictCity.get(state);
+        int count = (int) personDetails.stream().count();
+        System.out.println("city: " + state + " are " + count);
     }
 }
