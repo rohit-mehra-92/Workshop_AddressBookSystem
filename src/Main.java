@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
     static Scanner input = new Scanner(System.in);
     AddressBook ab = new AddressBook();
-    static HashMap<String, AddressBook> dictAddressBook = new HashMap<>();//
+    static HashMap<String, AddressBook> dictAddressBook = new HashMap<>();
     static Map dictCity = new HashMap<String, ArrayList<PersonDetails>>();
     static Map dictState = new HashMap<String, ArrayList<PersonDetails>>();
 
@@ -15,11 +15,6 @@ public class Main {
     public static int inputInteger(String message) {
         System.out.println(message);
         return input.nextInt();
-    }
-
-    public static char inputChar(String message) {
-        System.out.println(message);
-        return input.next().toUpperCase().charAt(0);
     }
 
     public static void displayBooks() {

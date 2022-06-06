@@ -3,7 +3,7 @@ import java.util.*;
 public class AddressBook {
     ArrayList<PersonDetails> listContactDetails = new ArrayList<>();
     Scanner in = new Scanner(System.in);
-    PersonDetails objPersonContact=null;
+    PersonDetails objPersonContact = null;
 
 
     public PersonDetails readContactDetail() {
@@ -35,12 +35,15 @@ public class AddressBook {
         for (PersonDetails objPerson : listContactDetails) {
             if (objPerson.getFirstName().equals(personDetails.getFirstName())) {
                 flag = true;
+                break;
             }
         }
         if (!flag) {
             listContactDetails.add(personDetails);
-            storePersonByCity((String) personDetails.getCity(), personDetails);//call store person details by city name
-            storePersonByState((String) personDetails.getState(), personDetails);//call store person details by state name
+            AddressBookFileIOService addressBookFileIOService = new AddressBookFileIOService();
+            addressBookFileIOService.write(listContactDetails);
+            storePersonByCity((String) personDetails.getCity(), personDetails);
+            storePersonByState((String) personDetails.getState(), personDetails);
         } else {
             System.out.println("First Name already exist..");
         }
@@ -93,6 +96,7 @@ public class AddressBook {
                 System.out.print("Enter choice: ");
                 Scanner in = new Scanner(System.in);
                 choice = in.nextInt();
+                //use switch for edit specific details
                 switch (choice) {
                     case 1:
                         System.out.println("Old: " + newPersonContact.getFirstName());
@@ -178,7 +182,7 @@ public class AddressBook {
     }
 
     public void displayContactDetails() {
-        if (listContactDetails.isEmpty()) {//check list are empty or not
+        if (listContactDetails.isEmpty()) {
             System.out.println("------NO RECORDS------");
             return;
         }
